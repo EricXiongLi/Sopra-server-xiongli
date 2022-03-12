@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Internal User Representation
@@ -25,55 +26,86 @@ public class User implements Serializable {
   @GeneratedValue
   private Long id;
 
-  @Column(nullable = false)
-  private String name;
-
   @Column(nullable = false, unique = true)
   private String username;
 
-  @Column(nullable = false, unique = true)
-  private String token;
-
   @Column(nullable = false)
-  private UserStatus status;
+  private String password;
 
-  public Long getId() {
-    return id;
-  }
+  @Column
+  private Date creation_date;
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+  @Column
+  private Date birthday;
 
-  public String getName() {
-    return name;
-  }
+  @Column
+  private Boolean logged_in;
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public String getUsername() {
-    return username;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public String getToken() {
-    return token;
-  }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-  public void setToken(String token) {
-    this.token = token;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public UserStatus getStatus() {
-    return status;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public void setStatus(UserStatus status) {
-    this.status = status;
-  }
+    public Date getCreation_date() {
+        return creation_date;
+    }
+
+    public void setCreation_date(Date creation_date) {
+        this.creation_date = creation_date;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Boolean getLogged_in() {
+        return logged_in;
+    }
+
+    public void setLogged_in(Boolean logged_in) {
+        this.logged_in = logged_in;
+    }
+
+    public User() {
+    }
+
+    public User(String username, String password, Date creation_date, Date birthday, Boolean logged_in) {
+        this.username = username;
+        this.password = password;
+        this.creation_date = creation_date;
+        this.birthday = birthday;
+        this.logged_in = logged_in;
+    }
+
+    public User(Long id, String username, String password, Date creation_date, Date birthday, Boolean logged_in) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.creation_date = creation_date;
+        this.birthday = birthday;
+        this.logged_in = logged_in;
+    }
 }

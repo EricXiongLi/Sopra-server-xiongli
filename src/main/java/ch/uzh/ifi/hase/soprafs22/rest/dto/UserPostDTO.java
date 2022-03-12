@@ -1,24 +1,46 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto;
 
-public class UserPostDTO {
+import java.util.Date;
 
-  private String name;
+public class UserPostDTO {
 
   private String username;
 
-  public String getName() {
-    return name;
-  }
+  private String password;
 
-  public void setName(String name) {
-    this.name = name;
-  }
+  private Date creation_date;
 
-  public String getUsername() {
-    return username;
-  }
+  private Date birthday;
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Date getCreation_date() {
+        return creation_date;
+    }
+
+    public void setCreation_date(Date creation_date) {
+        this.creation_date = creation_date;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 }
