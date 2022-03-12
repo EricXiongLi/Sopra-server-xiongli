@@ -76,11 +76,11 @@ public class UserController {
   @GetMapping("/users/{userId}")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public UserGetDTO getUserById(HttpSession httpSession, @PathVariable("userId") Long userId) {
-    User storedUser = (User) httpSession.getAttribute("user");
-    if (storedUser == null) {
-      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Please log in first");
-    }
+  public UserGetDTO getUserById( @PathVariable("userId") Long userId) {
+//    User storedUser = (User) httpSession.getAttribute("user");
+//    if (storedUser == null) {
+//      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Please log in first");
+//    }
     User user = userService.findById(userId);
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
   }
@@ -89,13 +89,12 @@ public class UserController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @ResponseBody
   public void updateUser(
-      HttpSession httpSession,
       @PathVariable("userId") Long userId,
       @RequestBody UserPutDTO userPutDTO) {
-    User storedUser = (User) httpSession.getAttribute("user");
-    if (storedUser== null || !Objects.equals(storedUser.getId(), userId)) {
-      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not authorized to do this, Please log in this account first");
-    }
+//    User storedUser = (User) httpSession.getAttribute("user");
+//    if (storedUser== null || !Objects.equals(storedUser.getId(), userId)) {
+//      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not authorized to do this, Please log in this account first");
+//    }
     User user = userService.findById(userId);
     user.setUsername(userPutDTO.getUsername());
     user.setBirthday(userPutDTO.getBirthday());
