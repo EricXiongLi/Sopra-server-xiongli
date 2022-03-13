@@ -78,8 +78,7 @@ public class UserService {
     public User findById(Long userId) {
       Optional<User> optionalUser = userRepository.findById(userId);
       if (optionalUser.isPresent()) {
-          User foundUser = optionalUser.get();
-          return foundUser;
+      return optionalUser.get();
       } else {
           throw new ResponseStatusException(HttpStatus.NOT_FOUND,"user not found");
       }

@@ -52,8 +52,11 @@ public class UserController {
   @ResponseBody
   public void login(HttpSession httpSession, @RequestBody User user) {
     User foundUser = userService.findByUsername(user);
+
     if (foundUser != null) {
       if (foundUser.getPassword().equals(user.getPassword())) {
+        foundUser.setLogged_in(true);
+        userService.updateUser(foundUser);
         httpSession.setAttribute("user", foundUser);
       } else {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found");
@@ -69,6 +72,8 @@ public class UserController {
   public UserGetDTO addUser(HttpSession httpSession, @RequestBody UserPostDTO userPostDTO) {
     User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
     User createdUser = userService.createUser(userInput);
+    createdUser.setLogged_in(true);
+    userService.updateUser(createdUser);
     httpSession.setAttribute("user", createdUser);
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
   }
@@ -76,11 +81,11 @@ public class UserController {
   @GetMapping("/users/{userId}")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public UserGetDTO getUserById( @PathVariable("userId") Long userId) {
-//    User storedUser = (User) httpSession.getAttribute("user");
-//    if (storedUser == null) {
-//      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Please log in first");
-//    }
+  public UserGetDTO getUserById(HttpSession httpSession, @PathVariable("userId") Long userId) {
+    User storedUser = (User) httpSession.getAttribute("user");
+    if (storedUser == null) {
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Please log in first");
+    }
     User user = userService.findById(userId);
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
   }
@@ -89,13 +94,16 @@ public class UserController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @ResponseBody
   public void updateUser(
+      HttpSession httpSession,
       @PathVariable("userId") Long userId,
       @RequestBody UserPutDTO userPutDTO) {
-//    User storedUser = (User) httpSession.getAttribute("user");
-//    if (storedUser== null || !Objects.equals(storedUser.getId(), userId)) {
-//      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not authorized to do this, Please log in this account first");
-//    }
-    User user = userService.findById(userId);
+      User user = userService.findById(userId);
+      User storedUser = (User) httpSession.getAttribute("user");
+    if (storedUser == null || !Objects.equals(storedUser.getId(), userId)) {
+      throw new ResponseStatusException(
+          HttpStatus.UNAUTHORIZED,
+          "You are not authorized to do this, Please log in this account first");
+    }
     user.setUsername(userPutDTO.getUsername());
     user.setBirthday(userPutDTO.getBirthday());
     userService.updateUser(user);
@@ -105,6 +113,11 @@ public class UserController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public void logout(HttpSession httpSession) {
+    User currentUser = (User)httpSession.getAttribute("user");
+    Long currentUserId = currentUser.getId();
+    User newUser = userService.findById(currentUserId);
+    newUser.setLogged_in(false);
+    userService.updateUser(newUser);
     httpSession.removeAttribute("user");
   }
 }
