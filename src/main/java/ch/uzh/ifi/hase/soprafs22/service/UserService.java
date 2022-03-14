@@ -43,7 +43,9 @@ public class UserService {
 
   public User createUser(User newUser) {
 //    newUser.setToken(UUID.randomUUID().toString());
+
     newUser.setCreation_date(new Date());
+    newUser.setToken(newUser.getToken());
 
     checkIfUserExists(newUser);
 
@@ -89,7 +91,11 @@ public class UserService {
     }
 
 
-    public User findByUsername(User user) {
+    public User findByUser(User user) {
       return userRepository.findByUsername(user.getUsername());
+    }
+
+    public User findByUsername(String username) {
+      return userRepository.findByUsername(username);
     }
 }

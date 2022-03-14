@@ -41,6 +41,9 @@ public class User implements Serializable {
   @Column
   private Boolean logged_in;
 
+  @Column
+  private String token;
+
     public Long getId() {
         return id;
     }
@@ -107,5 +110,13 @@ public class User implements Serializable {
         this.creation_date = creation_date;
         this.birthday = birthday;
         this.logged_in = logged_in;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

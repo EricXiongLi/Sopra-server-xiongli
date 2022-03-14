@@ -5,6 +5,15 @@ import java.util.Date;
 public class UserPutDTO {
     private String username;
     private Date birthday;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getUsername() {
         return username;

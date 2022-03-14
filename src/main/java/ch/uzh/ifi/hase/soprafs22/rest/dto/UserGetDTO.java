@@ -8,6 +8,15 @@ public class UserGetDTO {
     private Boolean logged_in;
     private Date birthday;
     private Integer id;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getUsername() {
         return username;
